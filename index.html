@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Huda's Farms - Telur Ayam Segar</title>
+    <title>Muda Bersemi - Telur Ayam Segar</title>
     <script
       src="https://unpkg.com/react@18/umd/react.production.min.js"
       crossorigin
@@ -1094,7 +1094,7 @@
         const login = (password) => {
           // TODO: Ganti ini dengan API call ke backend Golang
           // fetch('/api/admin/login', { method: 'POST', body: JSON.stringify({password}) })
-          if (password === "admin123") {
+          if (password === "bunuhKORUPTOR") {
             localStorage.setItem("huda_admin", "true");
             setIsAdmin(true);
             return true;
@@ -1168,7 +1168,7 @@
           title: "TENTANG PERUSAHAAN",
           subtitle: "PETERNAKAN UNGGAS",
           description:
-            "Huda's Farms adalah peternakan unggas yang berfokus pada produksi telur ayam segar berkualitas. Dengan pengalaman bertahun-tahun, kami berkomitmen menyediakan produk terbaik untuk keluarga Indonesia.Kami memperhatikan setiap detail, mulai dari pakan, kesehatan ayam, hingga proses pengemasan untuk memastikan telur yang sampai di tangan Anda adalah yang terbaik.",
+            "Muda Bersemi adalah peternakan unggas yang berfokus pada produksi telur ayam segar berkualitas. Dengan pengalaman bertahun-tahun, kami berkomitmen menyediakan produk terbaik untuk keluarga Indonesia.Kami memperhatikan setiap detail, mulai dari pakan, kesehatan ayam, hingga proses pengemasan untuk memastikan telur yang sampai di tangan Anda adalah yang terbaik.",
           image:
             "https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=600&q=80",
           cta: "Lihat Layanan",
@@ -1177,17 +1177,17 @@
           title: "Hubungi Kami",
           description:
             "Tertarik dengan produk kami? Hubungi kami melalui WhatsApp atau Email untuk pemesanan dan informasi lebih lanjut.",
-          whatsapp: "6281234567890",
+          whatsapp: "62 822-6295-3138",
           whatsappLabel: "Chat WhatsApp",
-          email: "info@hudafarms.com",
+          email: "huda.farm200@gmail.com",
           emailLabel: "Kirim Email",
           address: "Jl. Peternakan No. 123, Desa Sejahtera, Indonesia",
         },
         footer: {
-          brand: "Huda's Farms",
+          brand: "Muda Bersemi",
           desc: "Peternakan unggas terpercaya yang menyediakan telur ayam segar berkualitas untuk keluarga Indonesia.",
           phone: "+62 812-3456-7890",
-          email: "info@hudafarms.com",
+          email: "huda.farm200@gmail.com",
           address: "Jl. Peternakan No. 123, Indonesia",
         },
       };
@@ -1324,7 +1324,7 @@
             <div className="container header-inner">
               <div className="logo">
                 <div className="logo-icon">H</div>
-                Huda's Farms
+                Muda Bersemi
               </div>
               <nav className="nav">
                 <a
@@ -1596,7 +1596,7 @@
                   <h3>Video Peternakan</h3>
                   <p style={{ marginTop: "15px", color: "var(--text-light)" }}>
                     Video ini akan menampilkan proses produksi telur di
-                    peternakan Huda's Farms. (Integrasikan dengan video player
+                    peternakan Muda Bersemi. (Integrasikan dengan video player
                     atau embed YouTube sesuai kebutuhan.)
                   </p>
                   <div
@@ -1643,8 +1643,8 @@
 
       const Contact = () => {
         const { content } = useContent();
-        const waLink = `https://wa.me/${content.contact.whatsapp}?text=Halo%20Huda's%20Farms,%20saya%20tertarik%20dengan%20telur%20ayam%20Anda.`;
-        const mailLink = `mailto:${content.contact.email}?subject=Tanya%20Produk%20Huda's%20Farms`;
+        const waLink = `https://api.whatsapp.com/send?phone=6282262953138`;
+        const mailLink = `mailto:${"huda.farm200@gmail.com"}?subject=${"Tanya Produk"}`;
 
         return (
           <section id="contact" className="contact">
@@ -1814,7 +1814,7 @@
                 </div>
               </div>
               <div className="footer-bottom">
-                <p>Hak Cipta 2024 Huda's Farms. Seluruh hak dilindungi.</p>
+                <p>Hak Cipta 2024 Muda Bersemi. Seluruh hak dilindungi.</p>
               </div>
             </div>
           </footer>
@@ -1841,7 +1841,7 @@
           <div className="login-page">
             <div className="login-card">
               <h2>Admin Login</h2>
-              <p>Masuk ke panel admin Huda's Farms</p>
+              <p>Masuk ke panel admin Muda Bersemi</p>
               {error && <div className="alert alert-error">{error}</div>}
               <form onSubmit={handleSubmit}>
                 <div className="form-field">
@@ -1854,16 +1854,7 @@
                 </div>
                 <button type="submit">Masuk</button>
               </form>
-              <p
-                style={{
-                  marginTop: "20px",
-                  textAlign: "center",
-                  fontSize: "0.85rem",
-                  color: "var(--text-light)",
-                }}
-              >
-                Default: admin123
-              </p>
+
               <button
                 onClick={() => onNavigate("home")}
                 style={{
@@ -1915,7 +1906,7 @@
           <div className="admin-page">
             <div className="admin-header">
               <div className="container admin-header-inner">
-                <h1>Panel Admin - Huda's Farms</h1>
+                <h1>Panel Admin - Muda Bersemi</h1>
                 <div style={{ display: "flex", gap: "15px" }}>
                   <button
                     className="btn btn-sm btn-outline"
