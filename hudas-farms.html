@@ -1,0 +1,2516 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Huda's Farms - Telur Ayam Segar</title>
+    <script
+      src="https://unpkg.com/react@18/umd/react.production.min.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
+      crossorigin
+    ></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --primary: #c9a227;
+        --primary-dark: #a88420;
+        --secondary: #2c2c2c;
+        --light: #faf8f3;
+        --cream: #f5f0e6;
+        --text: #333333;
+        --text-light: #666666;
+        --white: #ffffff;
+        --danger: #dc3545;
+        --success: #28a745;
+        --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        --shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.12);
+      }
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        font-family: "Inter", sans-serif;
+        color: var(--text);
+        background: var(--light);
+        line-height: 1.6;
+        overflow-x: hidden;
+      }
+      h1,
+      h2,
+      h3,
+      h4 {
+        font-family: "Playfair Display", serif;
+      }
+      img {
+        max-width: 100%;
+        display: block;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+      button {
+        cursor: pointer;
+        border: none;
+        font-family: inherit;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+      }
+
+      /* Header */
+      .header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        transition: all 0.3s ease;
+      }
+      .header.scrolled {
+        box-shadow: var(--shadow);
+      }
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 70px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--secondary);
+      }
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+      }
+      .nav {
+        display: flex;
+        gap: 30px;
+        align-items: center;
+      }
+      .nav a {
+        font-size: 0.9rem;
+        font-weight: 500;
+        color: var(--text);
+        transition: color 0.3s;
+        position: relative;
+      }
+      .nav a:hover {
+        color: var(--primary);
+      }
+      .nav a::after {
+        content: "";
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background: var(--primary);
+        transition: width 0.3s;
+      }
+      .nav a:hover::after {
+        width: 100%;
+      }
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 12px 28px;
+        border-radius: 30px;
+        font-size: 0.9rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+      .btn-primary {
+        background: var(--primary);
+        color: var(--white);
+        box-shadow: 0 4px 15px rgba(201, 162, 39, 0.3);
+      }
+      .btn-primary:hover {
+        background: var(--primary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(201, 162, 39, 0.4);
+      }
+      .btn-outline {
+        border: 2px solid var(--primary);
+        color: var(--primary);
+        background: transparent;
+      }
+      .btn-outline:hover {
+        background: var(--primary);
+        color: white;
+      }
+      .btn-dark {
+        background: var(--secondary);
+        color: white;
+      }
+      .btn-dark:hover {
+        background: #444;
+      }
+      .btn-sm {
+        padding: 8px 20px;
+        font-size: 0.85rem;
+      }
+      .mobile-toggle {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        background: none;
+        border: none;
+        cursor: pointer;
+      }
+      .mobile-toggle span {
+        display: block;
+        width: 25px;
+        height: 2px;
+        background: var(--secondary);
+        transition: 0.3s;
+      }
+
+      /* Hero */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 70px;
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, var(--cream) 0%, var(--light) 100%);
+      }
+      .hero::before {
+        content: "";
+        position: absolute;
+        top: -10%;
+        right: -5%;
+        width: 600px;
+        height: 600px;
+        border-radius: 50%;
+        background: radial-gradient(
+          circle,
+          rgba(201, 162, 39, 0.1) 0%,
+          transparent 70%
+        );
+      }
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+      .hero-content h2 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--primary);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 15px;
+      }
+      .hero-content h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        line-height: 1.1;
+        color: var(--secondary);
+        margin-bottom: 20px;
+      }
+      .hero-content p {
+        font-size: 1.1rem;
+        color: var(--text-light);
+        margin-bottom: 30px;
+        max-width: 450px;
+      }
+      .hero-image {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+      }
+      .hero-image img {
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+        transition: transform 0.5s;
+      }
+      .hero-image:hover img {
+        transform: scale(1.05);
+      }
+      .typewriter {
+        font-family: "Playfair Display", serif;
+        font-size: 1.3rem;
+        color: var(--primary-dark);
+        min-height: 2rem;
+        margin-bottom: 25px;
+        font-style: italic;
+      }
+      .cursor {
+        display: inline-block;
+        width: 2px;
+        height: 1.2em;
+        background: var(--primary);
+        animation: blink 1s infinite;
+        vertical-align: text-bottom;
+        margin-left: 3px;
+      }
+      @keyframes blink {
+        0%,
+        50% {
+          opacity: 1;
+        }
+        51%,
+        100% {
+          opacity: 0;
+        }
+      }
+
+      /* Features */
+      .features {
+        padding: 100px 0;
+        background: var(--white);
+      }
+      .section-header {
+        text-align: center;
+        margin-bottom: 60px;
+      }
+      .section-header h2 {
+        font-size: 2.5rem;
+        color: var(--secondary);
+        margin-bottom: 15px;
+      }
+      .section-header p {
+        color: var(--text-light);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      .features-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px;
+        align-items: start;
+      }
+      .feature-main {
+        grid-column: 1;
+        grid-row: 1 / 3;
+        padding: 40px;
+        background: var(--cream);
+        border-radius: 20px;
+      }
+      .feature-main h3 {
+        font-size: 1.8rem;
+        color: var(--secondary);
+        margin-bottom: 15px;
+      }
+      .feature-main p {
+        color: var(--text-light);
+        margin-bottom: 25px;
+      }
+      .feature-card {
+        text-align: center;
+        padding: 30px;
+        border-radius: 15px;
+        transition: all 0.3s;
+        background: var(--white);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: var(--shadow);
+        border-color: transparent;
+      }
+      .feature-icon {
+        width: 60px;
+        height: 60px;
+        margin: 0 auto 20px;
+        background: var(--cream);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        color: var(--primary);
+      }
+      .feature-card h4 {
+        font-size: 1.2rem;
+        margin-bottom: 10px;
+        color: var(--secondary);
+      }
+      .feature-card p {
+        font-size: 0.9rem;
+        color: var(--text-light);
+      }
+
+      /* Video Section */
+      .video-section {
+        padding: 80px 0;
+        background: var(--cream);
+        position: relative;
+        overflow: hidden;
+      }
+      .video-section::before {
+        content: "SERVICES";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 10rem;
+        font-weight: 900;
+        color: rgba(0, 0, 0, 0.03);
+        white-space: nowrap;
+        pointer-events: none;
+        font-family: "Playfair Display", serif;
+      }
+      .video-grid {
+        display: grid;
+        grid-template-columns: 1fr 1.5fr;
+        gap: 40px;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+      .video-card {
+        border-radius: 20px;
+        overflow: hidden;
+        position: relative;
+        box-shadow: var(--shadow-lg);
+        cursor: pointer;
+      }
+      .video-card img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+      }
+      .video-overlay {
+        position: absolute;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.3s;
+      }
+      .video-card:hover .video-overlay {
+        background: rgba(0, 0, 0, 0.5);
+      }
+      .play-btn {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        background: var(--primary);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        transition: transform 0.3s;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      }
+      .video-card:hover .play-btn {
+        transform: scale(1.1);
+      }
+      .video-label {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      }
+      .video-main {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+      }
+      .video-main img {
+        width: 100%;
+        height: 400px;
+        object-fit: cover;
+      }
+      .video-main .video-overlay {
+        flex-direction: column;
+        gap: 15px;
+      }
+      .video-main .play-btn {
+        width: 80px;
+        height: 80px;
+        font-size: 1.8rem;
+      }
+      .video-main h3 {
+        color: white;
+        font-size: 1.5rem;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      /* About */
+      .about {
+        padding: 100px 0;
+        background: var(--white);
+        position: relative;
+        overflow: hidden;
+      }
+      .about::before {
+        content: "ABOUT";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 12rem;
+        font-weight: 900;
+        color: rgba(0, 0, 0, 0.03);
+        white-space: nowrap;
+        pointer-events: none;
+        font-family: "Playfair Display", serif;
+      }
+      .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+        position: relative;
+        z-index: 1;
+      }
+      .about-image {
+        position: relative;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: var(--shadow-lg);
+      }
+      .about-image img {
+        width: 100%;
+        height: 450px;
+        object-fit: cover;
+      }
+      .about-content h2 {
+        font-size: 2.5rem;
+        color: var(--secondary);
+        margin-bottom: 20px;
+      }
+      .about-content p {
+        color: var(--text-light);
+        margin-bottom: 20px;
+        line-height: 1.8;
+      }
+
+      /* Contact */
+      .contact {
+        padding: 100px 0;
+        background: linear-gradient(135deg, var(--secondary) 0%, #1a1a1a 100%);
+        color: white;
+      }
+      .contact-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 60px;
+        align-items: center;
+      }
+      .contact-content h2 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+        color: var(--white);
+      }
+      .contact-content p {
+        color: rgba(255, 255, 255, 0.7);
+        margin-bottom: 30px;
+        line-height: 1.8;
+      }
+      .contact-methods {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      .contact-method {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding: 20px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 15px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: all 0.3s;
+      }
+      .contact-method:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateX(5px);
+      }
+      .contact-icon {
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        background: var(--primary);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 1.2rem;
+        flex-shrink: 0;
+      }
+      .contact-method h4 {
+        font-size: 1.1rem;
+        margin-bottom: 5px;
+      }
+      .contact-method span {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+      }
+      .contact-form {
+        background: rgba(255, 255, 255, 0.05);
+        padding: 40px;
+        border-radius: 20px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.8);
+      }
+      .form-group input,
+      .form-group textarea {
+        width: 100%;
+        padding: 14px 18px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+      .form-group input:focus,
+      .form-group textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        background: rgba(255, 255, 255, 0.1);
+      }
+      .form-group textarea {
+        min-height: 120px;
+        resize: vertical;
+      }
+
+      /* Footer */
+      .footer {
+        background: #1a1a1a;
+        color: rgba(255, 255, 255, 0.7);
+        padding: 60px 0 30px;
+      }
+      .footer-grid {
+        display: grid;
+        grid-template-columns: 2fr 1fr 1fr 1.5fr;
+        gap: 40px;
+        margin-bottom: 40px;
+      }
+      .footer-brand h3 {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        color: white;
+        margin-bottom: 15px;
+      }
+      .footer-brand p {
+        font-size: 0.9rem;
+        line-height: 1.8;
+        margin-bottom: 20px;
+      }
+      .social-links {
+        display: flex;
+        gap: 15px;
+      }
+      .social-links a {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+      }
+      .social-links a:hover {
+        background: var(--primary);
+        transform: translateY(-3px);
+      }
+      .footer h4 {
+        color: white;
+        font-size: 1.1rem;
+        margin-bottom: 20px;
+      }
+      .footer-links {
+        list-style: none;
+      }
+      .footer-links li {
+        margin-bottom: 12px;
+      }
+      .footer-links a {
+        font-size: 0.9rem;
+        transition: color 0.3s;
+      }
+      .footer-links a:hover {
+        color: var(--primary);
+      }
+      .footer-contact p {
+        font-size: 0.9rem;
+        margin-bottom: 10px;
+        display: flex;
+        gap: 10px;
+      }
+      .footer-contact strong {
+        color: white;
+        min-width: 60px;
+      }
+      .footer-bottom {
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        padding-top: 30px;
+        text-align: center;
+        font-size: 0.85rem;
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      /* Admin */
+      .admin-page {
+        min-height: 100vh;
+        background: #f0f2f5;
+        padding-top: 80px;
+      }
+      .admin-header {
+        background: white;
+        padding: 20px 0;
+        margin-bottom: 30px;
+        box-shadow: var(--shadow);
+      }
+      .admin-header-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      .admin-header h1 {
+        font-size: 1.5rem;
+        color: var(--secondary);
+      }
+      .admin-grid {
+        display: grid;
+        grid-template-columns: 250px 1fr;
+        gap: 30px;
+      }
+      .admin-sidebar {
+        background: white;
+        border-radius: 15px;
+        padding: 20px;
+        box-shadow: var(--shadow);
+        height: fit-content;
+      }
+      .admin-nav {
+        list-style: none;
+      }
+      .admin-nav li {
+        margin-bottom: 5px;
+      }
+      .admin-nav button {
+        width: 100%;
+        text-align: left;
+        padding: 12px 15px;
+        border-radius: 10px;
+        background: none;
+        border: none;
+        font-size: 0.9rem;
+        color: var(--text);
+        transition: all 0.3s;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .admin-nav button:hover,
+      .admin-nav button.active {
+        background: var(--cream);
+        color: var(--primary);
+      }
+      .admin-content {
+        background: white;
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+      }
+      .admin-section h2 {
+        margin-bottom: 25px;
+        color: var(--secondary);
+      }
+      .form-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 20px;
+      }
+      .form-field {
+        margin-bottom: 20px;
+      }
+      .form-field label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+        font-size: 0.9rem;
+      }
+      .form-field input,
+      .form-field textarea {
+        width: 100%;
+        padding: 12px 15px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-size: 1rem;
+        transition: all 0.3s;
+      }
+      .form-field input:focus,
+      .form-field textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.1);
+      }
+      .form-field textarea {
+        min-height: 100px;
+        resize: vertical;
+      }
+      .image-preview {
+        width: 100%;
+        height: 200px;
+        border-radius: 10px;
+        object-fit: cover;
+        margin-bottom: 10px;
+        border: 2px dashed #ddd;
+      }
+      .image-upload {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+      }
+      .image-upload input[type="file"] {
+        position: absolute;
+        left: 0;
+        top: 0;
+        opacity: 0;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+      }
+      .upload-btn {
+        padding: 10px 20px;
+        background: var(--cream);
+        color: var(--text);
+        border-radius: 8px;
+        font-size: 0.9rem;
+        display: inline-block;
+      }
+      .save-bar {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: white;
+        padding: 15px 0;
+        box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        z-index: 100;
+      }
+      .alert {
+        padding: 15px 20px;
+        border-radius: 10px;
+        margin-bottom: 20px;
+        font-size: 0.9rem;
+      }
+      .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+      }
+      .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+      }
+
+      /* Login */
+      .login-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, var(--cream) 0%, var(--light) 100%);
+      }
+      .login-card {
+        background: white;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: var(--shadow-lg);
+        width: 100%;
+        max-width: 420px;
+      }
+      .login-card h2 {
+        text-align: center;
+        margin-bottom: 10px;
+        font-size: 2rem;
+      }
+      .login-card p {
+        text-align: center;
+        color: var(--text-light);
+        margin-bottom: 30px;
+      }
+      .login-card .form-field {
+        margin-bottom: 20px;
+      }
+      .login-card input {
+        width: 100%;
+        padding: 14px 18px;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        font-size: 1rem;
+      }
+      .login-card input:focus {
+        outline: none;
+        border-color: var(--primary);
+      }
+      .login-card button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+        background: var(--primary);
+        color: white;
+        border-radius: 10px;
+        font-size: 1rem;
+        font-weight: 600;
+        margin-top: 10px;
+      }
+      .login-card button[type="submit"]:hover {
+        background: var(--primary-dark);
+      }
+
+      /* Modal */
+      .modal-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 2000;
+        padding: 20px;
+      }
+      .modal {
+        background: white;
+        border-radius: 20px;
+        padding: 30px;
+        max-width: 600px;
+        width: 100%;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+      }
+      .modal-close {
+        position: absolute;
+        top: 15px;
+        right: 15px;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        background: var(--cream);
+        border: none;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      /* Responsive */
+      @media (max-width: 968px) {
+        .hero-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .hero-content h1 {
+          font-size: 2.5rem;
+        }
+        .hero-image img {
+          height: 350px;
+        }
+        .features-grid {
+          grid-template-columns: 1fr;
+        }
+        .feature-main {
+          grid-column: 1;
+          grid-row: auto;
+        }
+        .video-grid {
+          grid-template-columns: 1fr;
+        }
+        .about-grid {
+          grid-template-columns: 1fr;
+          gap: 40px;
+        }
+        .contact-grid {
+          grid-template-columns: 1fr;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+        .admin-grid {
+          grid-template-columns: 1fr;
+        }
+        .admin-sidebar {
+          display: none;
+        }
+        .form-row {
+          grid-template-columns: 1fr;
+        }
+      }
+      @media (max-width: 640px) {
+        .nav {
+          display: none;
+        }
+        .mobile-toggle {
+          display: flex;
+        }
+        .hero-content h1 {
+          font-size: 2rem;
+        }
+        .section-header h2 {
+          font-size: 1.8rem;
+        }
+        .footer-grid {
+          grid-template-columns: 1fr;
+        }
+        .login-card {
+          padding: 30px 20px;
+        }
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        position: fixed;
+        top: 70px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: white;
+        z-index: 999;
+        padding: 30px;
+        transform: translateX(100%);
+        transition: transform 0.3s;
+      }
+      .mobile-menu.open {
+        transform: translateX(0);
+      }
+      .mobile-menu a {
+        display: block;
+        padding: 15px 0;
+        font-size: 1.2rem;
+        border-bottom: 1px solid #eee;
+        color: var(--text);
+      }
+      .mobile-menu .btn {
+        margin-top: 20px;
+        width: 100%;
+        justify-content: center;
+      }
+
+      /* Animations */
+      .fade-in {
+        animation: fadeIn 0.6s ease-out;
+      }
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      .slide-in {
+        animation: slideIn 0.5s ease-out;
+      }
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateX(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateX(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="text/babel">
+      const {
+        useState,
+        useEffect,
+        useRef,
+        createContext,
+        useContext,
+        useCallback,
+      } = React;
+
+      // ==================== CONTEXT & AUTH ====================
+      const AuthContext = createContext(null);
+
+      const AuthProvider = ({ children }) => {
+        const [isAdmin, setIsAdmin] = useState(() => {
+          return localStorage.getItem("huda_admin") === "true";
+        });
+
+        const login = (password) => {
+          // TODO: Ganti ini dengan API call ke backend Golang
+          // fetch('/api/admin/login', { method: 'POST', body: JSON.stringify({password}) })
+          if (password === "admin123") {
+            localStorage.setItem("huda_admin", "true");
+            setIsAdmin(true);
+            return true;
+          }
+          return false;
+        };
+
+        const logout = () => {
+          localStorage.removeItem("huda_admin");
+          setIsAdmin(false);
+        };
+
+        return (
+          <AuthContext.Provider value={{ isAdmin, login, logout }}>
+            {children}
+          </AuthContext.Provider>
+        );
+      };
+
+      const useAuth = () => useContext(AuthContext);
+
+      // ==================== CONTENT CONTEXT ====================
+      const defaultContent = {
+        hero: {
+          subtitle: "Telur Segar untuk Anda",
+          title: "SETIAP HARI!",
+          description:
+            "Rasakan kelezatan dan nutrisi telur ayam segar dari peternakan kami. Kualitas terbaik untuk kesehatan keluarga Anda.",
+          cta: "Lihat Layanan",
+          image:
+            "https://images.unsplash.com/photo-1568702846914-96b305d2aaeb?w=800&q=80",
+        },
+        typewriter: [
+          "Telur Segar Setiap Hari",
+          "Kualitas Terbaik dari Peternakan",
+          "Sehat dan Bergizi untuk Keluarga",
+          "Pengiriman Cepat dan Aman",
+        ],
+        features: {
+          mainTitle: "UNGGAS BERKUALITAS",
+          mainSubtitle: "LAYANAN RAMAH",
+          mainDesc:
+            "Kami menyediakan telur ayam segar berkualitas tinggi dengan pelayanan terbaik untuk kepuasan pelanggan.",
+          items: [
+            {
+              icon: "hen",
+              title: "AYAM TERBAIK",
+              desc: "Dipelihara dengan perhatian khusus dan pakan berkualitas.",
+            },
+            {
+              icon: "egg",
+              title: "TELUR ORGANIK",
+              desc: "Produk alami tanpa bahan kimia berbahaya.",
+            },
+            {
+              icon: "farm",
+              title: "PETERNAKAN KAMI",
+              desc: "Lingkungan bersih dan nyaman untuk unggas.",
+            },
+          ],
+        },
+        video: {
+          smallImage:
+            "https://images.unsplash.com/photo-1582722872445-44dc5f7e3c8f?w=600&q=80",
+          smallLabel: "TELUR",
+          mainImage:
+            "https://images.unsplash.com/photo-1548550023-2bdb3c5cafd8?w=800&q=80",
+          mainTitle: "TONTON VIDEO PETERNAKAN KAMI",
+        },
+        about: {
+          title: "TENTANG PERUSAHAAN",
+          subtitle: "PETERNAKAN UNGGAS",
+          description:
+            "Huda's Farms adalah peternakan unggas yang berfokus pada produksi telur ayam segar berkualitas. Dengan pengalaman bertahun-tahun, kami berkomitmen menyediakan produk terbaik untuk keluarga Indonesia.Kami memperhatikan setiap detail, mulai dari pakan, kesehatan ayam, hingga proses pengemasan untuk memastikan telur yang sampai di tangan Anda adalah yang terbaik.",
+          image:
+            "https://images.unsplash.com/photo-1506976785307-8732e854ad03?w=600&q=80",
+          cta: "Lihat Layanan",
+        },
+        contact: {
+          title: "Hubungi Kami",
+          description:
+            "Tertarik dengan produk kami? Hubungi kami melalui WhatsApp atau Email untuk pemesanan dan informasi lebih lanjut.",
+          whatsapp: "6281234567890",
+          whatsappLabel: "Chat WhatsApp",
+          email: "info@hudafarms.com",
+          emailLabel: "Kirim Email",
+          address: "Jl. Peternakan No. 123, Desa Sejahtera, Indonesia",
+        },
+        footer: {
+          brand: "Huda's Farms",
+          desc: "Peternakan unggas terpercaya yang menyediakan telur ayam segar berkualitas untuk keluarga Indonesia.",
+          phone: "+62 812-3456-7890",
+          email: "info@hudafarms.com",
+          address: "Jl. Peternakan No. 123, Indonesia",
+        },
+      };
+
+      const ContentContext = createContext(null);
+
+      const ContentProvider = ({ children }) => {
+        const [content, setContent] = useState(() => {
+          const saved = localStorage.getItem("huda_content");
+          return saved ? JSON.parse(saved) : defaultContent;
+        });
+        const [saved, setSaved] = useState(false);
+
+        const updateContent = (section, data) => {
+          setContent((prev) => ({
+            ...prev,
+            [section]: { ...prev[section], ...data },
+          }));
+          setSaved(false);
+        };
+
+        const updateFeature = (index, data) => {
+          const items = [...content.features.items];
+          items[index] = { ...items[index], ...data };
+          setContent((prev) => ({
+            ...prev,
+            features: { ...prev.features, items },
+          }));
+          setSaved(false);
+        };
+
+        const saveContent = () => {
+          // TODO: Ganti dengan POST ke backend Golang
+          // fetch('/api/content', { method: 'POST', headers: {'Content-Type':'application/json'}, body: JSON.stringify(content) })
+          localStorage.setItem("huda_content", JSON.stringify(content));
+          setSaved(true);
+          setTimeout(() => setSaved(false), 3000);
+        };
+
+        const updateImage = (section, field, file) => {
+          if (!file) return;
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            updateContent(section, { [field]: e.target.result });
+          };
+          reader.readAsDataURL(file);
+
+          // TODO: Untuk backend Golang, upload file menggunakan FormData:
+          // const formData = new FormData();
+          // formData.append('image', file);
+          // fetch('/api/upload', { method: 'POST', body: formData })
+          //   .then(res => res.json()).then(data => updateContent(section, { [field]: data.url }));
+        };
+
+        return (
+          <ContentContext.Provider
+            value={{
+              content,
+              updateContent,
+              updateFeature,
+              saveContent,
+              updateImage,
+              saved,
+            }}
+          >
+            {children}
+          </ContentContext.Provider>
+        );
+      };
+
+      const useContent = () => useContext(ContentContext);
+
+      // ==================== COMPONENTS ====================
+
+      const Typewriter = ({ texts, speed = 100 }) => {
+        const [display, setDisplay] = useState("");
+        const [index, setIndex] = useState(0);
+        const [subIndex, setSubIndex] = useState(0);
+        const [forward, setForward] = useState(true);
+        const [pause, setPause] = useState(false);
+
+        useEffect(() => {
+          if (pause) {
+            const timeout = setTimeout(() => setPause(false), 2000);
+            return () => clearTimeout(timeout);
+          }
+          if (forward) {
+            if (subIndex < texts[index].length) {
+              const timeout = setTimeout(
+                () => setSubIndex(subIndex + 1),
+                speed,
+              );
+              return () => clearTimeout(timeout);
+            } else {
+              setPause(true);
+              setForward(false);
+            }
+          } else {
+            if (subIndex > 0) {
+              const timeout = setTimeout(
+                () => setSubIndex(subIndex - 1),
+                speed / 2,
+              );
+              return () => clearTimeout(timeout);
+            } else {
+              setIndex((index + 1) % texts.length);
+              setForward(true);
+            }
+          }
+        }, [subIndex, forward, pause, index, texts, speed]);
+
+        return (
+          <span className="typewriter">
+            {display}
+            {subIndex > 0 ? texts[index].substring(0, subIndex) : ""}
+            <span className="cursor"></span>
+          </span>
+        );
+      };
+
+      const Header = ({ onNavigate }) => {
+        const { isAdmin } = useAuth();
+        const [scrolled, setScrolled] = useState(false);
+        const [mobileOpen, setMobileOpen] = useState(false);
+
+        useEffect(() => {
+          const handleScroll = () => setScrolled(window.scrollY > 50);
+          window.addEventListener("scroll", handleScroll);
+          return () => window.removeEventListener("scroll", handleScroll);
+        }, []);
+
+        return (
+          <header className={`header ${scrolled ? "scrolled" : ""}`}>
+            <div className="container header-inner">
+              <div className="logo">
+                <div className="logo-icon">H</div>
+                Huda's Farms
+              </div>
+              <nav className="nav">
+                <a
+                  href="#home"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate("home");
+                  }}
+                >
+                  Beranda
+                </a>
+                <a
+                  href="#about"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate("about");
+                  }}
+                >
+                  Tentang
+                </a>
+                <a
+                  href="#products"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate("products");
+                  }}
+                >
+                  Produk
+                </a>
+                <a
+                  href="#services"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate("services");
+                  }}
+                >
+                  Layanan
+                </a>
+                <a
+                  href="#contact"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    onNavigate("contact");
+                  }}
+                >
+                  Hubungi Kami
+                </a>
+                {isAdmin && (
+                  <button
+                    className="btn btn-sm btn-outline"
+                    onClick={() => onNavigate("admin")}
+                  >
+                    Admin
+                  </button>
+                )}
+              </nav>
+              <button
+                className="mobile-toggle"
+                onClick={() => setMobileOpen(!mobileOpen)}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            </div>
+            <div className={`mobile-menu ${mobileOpen ? "open" : ""}`}>
+              <a
+                href="#home"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate("home");
+                  setMobileOpen(false);
+                }}
+              >
+                Beranda
+              </a>
+              <a
+                href="#about"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate("about");
+                  setMobileOpen(false);
+                }}
+              >
+                Tentang
+              </a>
+              <a
+                href="#products"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate("products");
+                  setMobileOpen(false);
+                }}
+              >
+                Produk
+              </a>
+              <a
+                href="#services"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate("services");
+                  setMobileOpen(false);
+                }}
+              >
+                Layanan
+              </a>
+              <a
+                href="#contact"
+                onClick={(e) => {
+                  e.preventDefault();
+                  onNavigate("contact");
+                  setMobileOpen(false);
+                }}
+              >
+                Hubungi Kami
+              </a>
+              {isAdmin && (
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    onNavigate("admin");
+                    setMobileOpen(false);
+                  }}
+                >
+                  Admin Panel
+                </button>
+              )}
+            </div>
+          </header>
+        );
+      };
+
+      const Hero = ({ onNavigate }) => {
+        const { content } = useContent();
+        return (
+          <section id="home" className="hero">
+            <div className="container hero-grid">
+              <div className="hero-content fade-in">
+                <h2>{content.hero.subtitle}</h2>
+                <h1>{content.hero.title}</h1>
+                <Typewriter texts={content.typewriter} />
+                <p>{content.hero.description}</p>
+                <button
+                  className="btn btn-primary"
+                  onClick={() => onNavigate("services")}
+                >
+                  {content.hero.cta}
+                </button>
+              </div>
+              <div className="hero-image slide-in">
+                <img src={content.hero.image} alt="Telur dan Anak Ayam" />
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      const Features = () => {
+        const { content } = useContent();
+        const icons = {
+          hen: (
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M12 3c-4 0-7 3-7 7 0 2 1 4 3 5v3h8v-3c2-1 3-3 3-5 0-4-3-7-7-7z" />
+              <path d="M9 21h6" />
+            </svg>
+          ),
+          egg: (
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <ellipse cx="12" cy="12" rx="8" ry="10" />
+            </svg>
+          ),
+          farm: (
+            <svg
+              width="28"
+              height="28"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+            >
+              <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6" />
+            </svg>
+          ),
+        };
+        return (
+          <section id="products" className="features">
+            <div className="container">
+              <div className="section-header">
+                <h2>Mengapa Memilih Kami?</h2>
+                <p>
+                  Kualitas terbaik dari peternakan kami langsung ke meja makan
+                  Anda
+                </p>
+              </div>
+              <div className="features-grid">
+                <div className="feature-main">
+                  <h3>{content.features.mainTitle}</h3>
+                  <h3 style={{ color: "var(--primary)", marginTop: "-10px" }}>
+                    {content.features.mainSubtitle}
+                  </h3>
+                  <p>{content.features.mainDesc}</p>
+                  <button className="btn btn-primary">
+                    Lihat Semua Layanan
+                  </button>
+                </div>
+                {content.features.items.map((item, i) => (
+                  <div className="feature-card" key={i}>
+                    <div className="feature-icon">
+                      {icons[item.icon] || icons.egg}
+                    </div>
+                    <h4>{item.title}</h4>
+                    <p>{item.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      const VideoSection = () => {
+        const { content } = useContent();
+        const [showModal, setShowModal] = useState(false);
+        return (
+          <section id="services" className="video-section">
+            <div className="container video-grid">
+              <div className="video-card" onClick={() => setShowModal(true)}>
+                <img src={content.video.smallImage} alt="Telur" />
+                <div className="video-overlay">
+                  <span className="video-label">
+                    {content.video.smallLabel}
+                  </span>
+                </div>
+              </div>
+              <div className="video-main" onClick={() => setShowModal(true)}>
+                <img src={content.video.mainImage} alt="Peternakan" />
+                <div className="video-overlay">
+                  <div className="play-btn">&#9654;</div>
+                  <h3>{content.video.mainTitle}</h3>
+                </div>
+              </div>
+            </div>
+            {showModal && (
+              <div
+                className="modal-overlay"
+                onClick={() => setShowModal(false)}
+              >
+                <div className="modal" onClick={(e) => e.stopPropagation()}>
+                  <button
+                    className="modal-close"
+                    onClick={() => setShowModal(false)}
+                  >
+                    x
+                  </button>
+                  <h3>Video Peternakan</h3>
+                  <p style={{ marginTop: "15px", color: "var(--text-light)" }}>
+                    Video ini akan menampilkan proses produksi telur di
+                    peternakan Huda's Farms. (Integrasikan dengan video player
+                    atau embed YouTube sesuai kebutuhan.)
+                  </p>
+                  <div
+                    style={{
+                      marginTop: "20px",
+                      padding: "60px",
+                      background: "#f0f0f0",
+                      borderRadius: "10px",
+                      textAlign: "center",
+                      color: "#999",
+                    }}
+                  >
+                    [ Area Video Player ]
+                  </div>
+                </div>
+              </div>
+            )}
+          </section>
+        );
+      };
+
+      const About = () => {
+        const { content } = useContent();
+        return (
+          <section id="about" className="about">
+            <div className="container about-grid">
+              <div className="about-image">
+                <img src={content.about.image} alt="Tentang Kami" />
+              </div>
+              <div className="about-content">
+                <h2>{content.about.subtitle}</h2>
+                <h2 style={{ color: "var(--primary)", marginTop: "-15px" }}>
+                  {content.about.title}
+                </h2>
+                {content.about.description.split("\n").map((p, i) => (
+                  <p key={i}>{p}</p>
+                ))}
+                <button className="btn btn-primary">{content.about.cta}</button>
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      const Contact = () => {
+        const { content } = useContent();
+        const waLink = `https://wa.me/${content.contact.whatsapp}?text=Halo%20Huda's%20Farms,%20saya%20tertarik%20dengan%20telur%20ayam%20Anda.`;
+        const mailLink = `mailto:${content.contact.email}?subject=Tanya%20Produk%20Huda's%20Farms`;
+
+        return (
+          <section id="contact" className="contact">
+            <div className="container contact-grid">
+              <div className="contact-content">
+                <h2>{content.contact.title}</h2>
+                <p>{content.contact.description}</p>
+                <div className="contact-methods">
+                  <a
+                    href={waLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="contact-method"
+                  >
+                    <div className="contact-icon">WA</div>
+                    <div>
+                      <h4>{content.contact.whatsappLabel}</h4>
+                      <span>+{content.contact.whatsapp}</span>
+                    </div>
+                  </a>
+                  <a href={mailLink} className="contact-method">
+                    <div className="contact-icon">@</div>
+                    <div>
+                      <h4>{content.contact.emailLabel}</h4>
+                      <span>{content.contact.email}</span>
+                    </div>
+                  </a>
+                </div>
+              </div>
+              <div className="contact-form">
+                <h3 style={{ marginBottom: "25px", color: "white" }}>
+                  Kirim Pesan
+                </h3>
+                <div className="form-group">
+                  <label>Nama Lengkap</label>
+                  <input type="text" placeholder="Masukkan nama Anda" />
+                </div>
+                <div className="form-group">
+                  <label>Email</label>
+                  <input type="email" placeholder="Masukkan email Anda" />
+                </div>
+                <div className="form-group">
+                  <label>Pesan</label>
+                  <textarea placeholder="Tulis pesan Anda di sini..."></textarea>
+                </div>
+                <button className="btn btn-primary" style={{ width: "100%" }}>
+                  Kirim Pesan
+                </button>
+              </div>
+            </div>
+          </section>
+        );
+      };
+
+      const Footer = ({ onNavigate }) => {
+        const { content } = useContent();
+        return (
+          <footer className="footer">
+            <div className="container">
+              <div className="footer-grid">
+                <div className="footer-brand">
+                  <h3>{content.footer.brand}</h3>
+                  <p>{content.footer.desc}</p>
+                  <div className="social-links">
+                    <a href="#" title="Facebook">
+                      f
+                    </a>
+                    <a href="#" title="Twitter">
+                      t
+                    </a>
+                    <a href="#" title="Instagram">
+                      i
+                    </a>
+                    <a href="#" title="YouTube">
+                      y
+                    </a>
+                  </div>
+                </div>
+                <div>
+                  <h4>Tautan Cepat</h4>
+                  <ul className="footer-links">
+                    <li>
+                      <a
+                        href="#home"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onNavigate("home");
+                        }}
+                      >
+                        Beranda
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#about"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onNavigate("about");
+                        }}
+                      >
+                        Tentang
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#products"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onNavigate("products");
+                        }}
+                      >
+                        Produk
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#services"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onNavigate("services");
+                        }}
+                      >
+                        Layanan
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        href="#contact"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          onNavigate("contact");
+                        }}
+                      >
+                        Hubungi Kami
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+                <div>
+                  <h4>Layanan</h4>
+                  <ul className="footer-links">
+                    <li>
+                      <a href="#">Penjualan Telur</a>
+                    </li>
+                    <li>
+                      <a href="#">Pengiriman</a>
+                    </li>
+                    <li>
+                      <a href="#">Grosir</a>
+                    </li>
+                    <li>
+                      <a href="#">Kemitraan</a>
+                    </li>
+                  </ul>
+                </div>
+                <div className="footer-contact">
+                  <h4>Info Kontak</h4>
+                  <p>
+                    <strong>Alamat:</strong> {content.footer.address}
+                  </p>
+                  <p>
+                    <strong>Telp:</strong> {content.footer.phone}
+                  </p>
+                  <p>
+                    <strong>Email:</strong> {content.footer.email}
+                  </p>
+                </div>
+              </div>
+              <div className="footer-bottom">
+                <p>Hak Cipta 2024 Huda's Farms. Seluruh hak dilindungi.</p>
+              </div>
+            </div>
+          </footer>
+        );
+      };
+
+      // ==================== ADMIN COMPONENTS ====================
+
+      const LoginPage = ({ onNavigate }) => {
+        const { login } = useAuth();
+        const [password, setPassword] = useState("");
+        const [error, setError] = useState("");
+
+        const handleSubmit = (e) => {
+          e.preventDefault();
+          if (login(password)) {
+            onNavigate("admin");
+          } else {
+            setError("Password salah. Coba lagi.");
+          }
+        };
+
+        return (
+          <div className="login-page">
+            <div className="login-card">
+              <h2>Admin Login</h2>
+              <p>Masuk ke panel admin Huda's Farms</p>
+              {error && <div className="alert alert-error">{error}</div>}
+              <form onSubmit={handleSubmit}>
+                <div className="form-field">
+                  <input
+                    type="password"
+                    placeholder="Masukkan password admin"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
+                </div>
+                <button type="submit">Masuk</button>
+              </form>
+              <p
+                style={{
+                  marginTop: "20px",
+                  textAlign: "center",
+                  fontSize: "0.85rem",
+                  color: "var(--text-light)",
+                }}
+              >
+                Default: admin123
+              </p>
+              <button
+                onClick={() => onNavigate("home")}
+                style={{
+                  marginTop: "15px",
+                  width: "100%",
+                  background: "none",
+                  color: "var(--primary)",
+                  fontSize: "0.9rem",
+                }}
+              >
+                Kembali ke Beranda
+              </button>
+            </div>
+          </div>
+        );
+      };
+
+      const AdminPanel = ({ onNavigate }) => {
+        const { logout, isAdmin } = useAuth();
+        const {
+          content,
+          updateContent,
+          updateFeature,
+          saveContent,
+          updateImage,
+          saved,
+        } = useContent();
+        const [activeTab, setActiveTab] = useState("hero");
+
+        if (!isAdmin) {
+          onNavigate("login");
+          return null;
+        }
+
+        const tabs = [
+          { id: "hero", label: "Hero / Beranda", icon: "H" },
+          { id: "features", label: "Fitur", icon: "F" },
+          { id: "video", label: "Video", icon: "V" },
+          { id: "about", label: "Tentang", icon: "A" },
+          { id: "contact", label: "Kontak", icon: "C" },
+          { id: "footer", label: "Footer", icon: "F" },
+        ];
+
+        const handleImageChange = (section, field, e) => {
+          updateImage(section, field, e.target.files[0]);
+        };
+
+        return (
+          <div className="admin-page">
+            <div className="admin-header">
+              <div className="container admin-header-inner">
+                <h1>Panel Admin - Huda's Farms</h1>
+                <div style={{ display: "flex", gap: "15px" }}>
+                  <button
+                    className="btn btn-sm btn-outline"
+                    onClick={() => onNavigate("home")}
+                  >
+                    Lihat Website
+                  </button>
+                  <button
+                    className="btn btn-sm btn-dark"
+                    onClick={() => {
+                      logout();
+                      onNavigate("home");
+                    }}
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div className="container admin-grid">
+              <aside className="admin-sidebar">
+                <ul className="admin-nav">
+                  {tabs.map((tab) => (
+                    <li key={tab.id}>
+                      <button
+                        className={activeTab === tab.id ? "active" : ""}
+                        onClick={() => setActiveTab(tab.id)}
+                      >
+                        <span
+                          style={{
+                            width: "24px",
+                            height: "24px",
+                            borderRadius: "50%",
+                            background:
+                              activeTab === tab.id ? "var(--primary)" : "#eee",
+                            color: activeTab === tab.id ? "white" : "#666",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            fontSize: "0.8rem",
+                            fontWeight: "700",
+                          }}
+                        >
+                          {tab.icon}
+                        </span>
+                        {tab.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              </aside>
+
+              <main className="admin-content">
+                {saved && (
+                  <div className="alert alert-success">
+                    Perubahan berhasil disimpan!
+                  </div>
+                )}
+
+                {activeTab === "hero" && (
+                  <div className="admin-section">
+                    <h2>Edit Beranda</h2>
+                    <div className="form-field">
+                      <label>Gambar Hero</label>
+                      <img
+                        src={content.hero.image}
+                        alt="Preview"
+                        className="image-preview"
+                      />
+                      <div className="image-upload">
+                        <span className="upload-btn">Pilih Gambar Baru</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) =>
+                            handleImageChange("hero", "image", e)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <div className="form-field">
+                        <label>Subjudul</label>
+                        <input
+                          type="text"
+                          value={content.hero.subtitle}
+                          onChange={(e) =>
+                            updateContent("hero", { subtitle: e.target.value })
+                          }
+                        />
+                      </div>
+                      <div className="form-field">
+                        <label>Judul</label>
+                        <input
+                          type="text"
+                          value={content.hero.title}
+                          onChange={(e) =>
+                            updateContent("hero", { title: e.target.value })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-field">
+                      <label>Deskripsi</label>
+                      <textarea
+                        value={content.hero.description}
+                        onChange={(e) =>
+                          updateContent("hero", { description: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Teks Tombol</label>
+                      <input
+                        type="text"
+                        value={content.hero.cta}
+                        onChange={(e) =>
+                          updateContent("hero", { cta: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Teks Typewriter (pisahkan dengan koma)</label>
+                      <textarea
+                        value={content.typewriter.join(", ")}
+                        onChange={(e) =>
+                          updateContent(
+                            "typewriter",
+                            e.target.value.split(",").map((s) => s.trim()),
+                          )
+                        }
+                        rows="3"
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "features" && (
+                  <div className="admin-section">
+                    <h2>Edit Fitur</h2>
+                    <div className="form-field">
+                      <label>Judul Utama</label>
+                      <input
+                        type="text"
+                        value={content.features.mainTitle}
+                        onChange={(e) =>
+                          updateContent("features", {
+                            mainTitle: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Subjudul Utama</label>
+                      <input
+                        type="text"
+                        value={content.features.mainSubtitle}
+                        onChange={(e) =>
+                          updateContent("features", {
+                            mainSubtitle: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Deskripsi Utama</label>
+                      <textarea
+                        value={content.features.mainDesc}
+                        onChange={(e) =>
+                          updateContent("features", {
+                            mainDesc: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    {content.features.items.map((item, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          marginBottom: "30px",
+                          padding: "20px",
+                          background: "#f8f8f8",
+                          borderRadius: "10px",
+                        }}
+                      >
+                        <h4>Fitur {i + 1}</h4>
+                        <div className="form-row">
+                          <div className="form-field">
+                            <label>Judul</label>
+                            <input
+                              type="text"
+                              value={item.title}
+                              onChange={(e) =>
+                                updateFeature(i, { title: e.target.value })
+                              }
+                            />
+                          </div>
+                          <div className="form-field">
+                            <label>Ikon (hen/egg/farm)</label>
+                            <input
+                              type="text"
+                              value={item.icon}
+                              onChange={(e) =>
+                                updateFeature(i, { icon: e.target.value })
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div className="form-field">
+                          <label>Deskripsi</label>
+                          <textarea
+                            value={item.desc}
+                            onChange={(e) =>
+                              updateFeature(i, { desc: e.target.value })
+                            }
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {activeTab === "video" && (
+                  <div className="admin-section">
+                    <h2>Edit Video</h2>
+                    <div className="form-field">
+                      <label>Gambar Kecil</label>
+                      <img
+                        src={content.video.smallImage}
+                        alt="Preview"
+                        className="image-preview"
+                      />
+                      <div className="image-upload">
+                        <span className="upload-btn">Pilih Gambar</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) =>
+                            handleImageChange("video", "smallImage", e)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-field">
+                      <label>Label Gambar Kecil</label>
+                      <input
+                        type="text"
+                        value={content.video.smallLabel}
+                        onChange={(e) =>
+                          updateContent("video", { smallLabel: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Gambar Utama</label>
+                      <img
+                        src={content.video.mainImage}
+                        alt="Preview"
+                        className="image-preview"
+                      />
+                      <div className="image-upload">
+                        <span className="upload-btn">Pilih Gambar</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) =>
+                            handleImageChange("video", "mainImage", e)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-field">
+                      <label>Judul Video</label>
+                      <input
+                        type="text"
+                        value={content.video.mainTitle}
+                        onChange={(e) =>
+                          updateContent("video", { mainTitle: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "about" && (
+                  <div className="admin-section">
+                    <h2>Edit Tentang</h2>
+                    <div className="form-field">
+                      <label>Gambar</label>
+                      <img
+                        src={content.about.image}
+                        alt="Preview"
+                        className="image-preview"
+                      />
+                      <div className="image-upload">
+                        <span className="upload-btn">Pilih Gambar</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          onChange={(e) =>
+                            handleImageChange("about", "image", e)
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <div className="form-field">
+                        <label>Subjudul</label>
+                        <input
+                          type="text"
+                          value={content.about.subtitle}
+                          onChange={(e) =>
+                            updateContent("about", { subtitle: e.target.value })
+                          }
+                        />
+                      </div>
+                      <div className="form-field">
+                        <label>Judul</label>
+                        <input
+                          type="text"
+                          value={content.about.title}
+                          onChange={(e) =>
+                            updateContent("about", { title: e.target.value })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-field">
+                      <label>
+                        Deskripsi (gunakan enter untuk paragraf baru)
+                      </label>
+                      <textarea
+                        value={content.about.description}
+                        onChange={(e) =>
+                          updateContent("about", {
+                            description: e.target.value,
+                          })
+                        }
+                        rows="6"
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Teks Tombol</label>
+                      <input
+                        type="text"
+                        value={content.about.cta}
+                        onChange={(e) =>
+                          updateContent("about", { cta: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "contact" && (
+                  <div className="admin-section">
+                    <h2>Edit Kontak</h2>
+                    <div className="form-field">
+                      <label>Judul</label>
+                      <input
+                        type="text"
+                        value={content.contact.title}
+                        onChange={(e) =>
+                          updateContent("contact", { title: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Deskripsi</label>
+                      <textarea
+                        value={content.contact.description}
+                        onChange={(e) =>
+                          updateContent("contact", {
+                            description: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                    <div className="form-row">
+                      <div className="form-field">
+                        <label>Nomor WhatsApp (tanpa +)</label>
+                        <input
+                          type="text"
+                          value={content.contact.whatsapp}
+                          onChange={(e) =>
+                            updateContent("contact", {
+                              whatsapp: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                      <div className="form-field">
+                        <label>Label WhatsApp</label>
+                        <input
+                          type="text"
+                          value={content.contact.whatsappLabel}
+                          onChange={(e) =>
+                            updateContent("contact", {
+                              whatsappLabel: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-row">
+                      <div className="form-field">
+                        <label>Email</label>
+                        <input
+                          type="email"
+                          value={content.contact.email}
+                          onChange={(e) =>
+                            updateContent("contact", { email: e.target.value })
+                          }
+                        />
+                      </div>
+                      <div className="form-field">
+                        <label>Label Email</label>
+                        <input
+                          type="text"
+                          value={content.contact.emailLabel}
+                          onChange={(e) =>
+                            updateContent("contact", {
+                              emailLabel: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-field">
+                      <label>Alamat</label>
+                      <textarea
+                        value={content.contact.address}
+                        onChange={(e) =>
+                          updateContent("contact", { address: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
+
+                {activeTab === "footer" && (
+                  <div className="admin-section">
+                    <h2>Edit Footer</h2>
+                    <div className="form-field">
+                      <label>Nama Brand</label>
+                      <input
+                        type="text"
+                        value={content.footer.brand}
+                        onChange={(e) =>
+                          updateContent("footer", { brand: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-field">
+                      <label>Deskripsi</label>
+                      <textarea
+                        value={content.footer.desc}
+                        onChange={(e) =>
+                          updateContent("footer", { desc: e.target.value })
+                        }
+                      />
+                    </div>
+                    <div className="form-row">
+                      <div className="form-field">
+                        <label>Telepon</label>
+                        <input
+                          type="text"
+                          value={content.footer.phone}
+                          onChange={(e) =>
+                            updateContent("footer", { phone: e.target.value })
+                          }
+                        />
+                      </div>
+                      <div className="form-field">
+                        <label>Email</label>
+                        <input
+                          type="email"
+                          value={content.footer.email}
+                          onChange={(e) =>
+                            updateContent("footer", { email: e.target.value })
+                          }
+                        />
+                      </div>
+                    </div>
+                    <div className="form-field">
+                      <label>Alamat</label>
+                      <textarea
+                        value={content.footer.address}
+                        onChange={(e) =>
+                          updateContent("footer", { address: e.target.value })
+                        }
+                      />
+                    </div>
+                  </div>
+                )}
+              </main>
+            </div>
+
+            <div className="save-bar">
+              <button className="btn btn-primary" onClick={saveContent}>
+                Simpan Perubahan
+              </button>
+              <button
+                className="btn btn-outline"
+                onClick={() => onNavigate("home")}
+              >
+                Lihat Perubahan
+              </button>
+            </div>
+          </div>
+        );
+      };
+
+      // ==================== MAIN APP ====================
+
+      const App = () => {
+        const [page, setPage] = useState("home");
+        const mainRef = useRef(null);
+
+        const navigate = (target) => {
+          if (
+            target === "home" ||
+            target === "about" ||
+            target === "products" ||
+            target === "services" ||
+            target === "contact"
+          ) {
+            setPage("home");
+            setTimeout(() => {
+              const el = document.getElementById(
+                target === "home" ? "home" : target,
+              );
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }, 100);
+          } else {
+            setPage(target);
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        };
+
+        return (
+          <AuthProvider>
+            <ContentProvider>
+              {page === "login" && <LoginPage onNavigate={navigate} />}
+              {page === "admin" && <AdminPanel onNavigate={navigate} />}
+              {(page === "home" ||
+                page === "about" ||
+                page === "products" ||
+                page === "services" ||
+                page === "contact") && (
+                <>
+                  <Header onNavigate={navigate} />
+                  <main ref={mainRef}>
+                    <Hero onNavigate={navigate} />
+                    <Features />
+                    <VideoSection />
+                    <About />
+                    <Contact />
+                  </main>
+                  <Footer onNavigate={navigate} />
+                  <button
+                    onClick={() => navigate("login")}
+                    style={{
+                      position: "fixed",
+                      bottom: "20px",
+                      right: "20px",
+                      width: "50px",
+                      height: "50px",
+                      borderRadius: "50%",
+                      background: "var(--secondary)",
+                      color: "white",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      boxShadow: "0 4px 15px rgba(0,0,0,0.2)",
+                      zIndex: 99,
+                      fontSize: "0.75rem",
+                      fontWeight: "700",
+                      border: "none",
+                      cursor: "pointer",
+                    }}
+                    title="Admin Login"
+                  >
+                    ADM
+                  </button>
+                </>
+              )}
+            </ContentProvider>
+          </AuthProvider>
+        );
+      };
+
+      const root = ReactDOM.createRoot(document.getElementById("root"));
+      root.render(<App />);
+    </script>
+  </body>
+</html>
